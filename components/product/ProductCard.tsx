@@ -1,3 +1,4 @@
+// components/product/ProductCard.tsx
 "use client";
 
 import Image from "next/image";
@@ -6,25 +7,11 @@ import { motion } from "framer-motion";
 import { ShoppingBag, Heart } from "lucide-react";
 import { cn, formatPrice } from "@/lib/utils";
 import { useCart } from "@/contexts/CartContext";
+import LiquidCard from "@/components/ui/LiquidCard";
+import LiquidButton from "@/components/ui/LiquidButton";
 import Badge from "@/components/ui/Badge";
-import Button from "@/components/ui/Button";
 import ConditionBadge from "@/components/ui/ConditionBadge";
-
-export interface Product {
-  id: string;
-  slug: string;
-  name: string;
-  category: string;
-  description: string;
-  price: number;
-  originalPrice?: number;
-  condition: "Like New" | "Excellent" | "Good" | "Fair";
-  image: string;
-  bnplAvailable: boolean;
-  tradeInAvailable: boolean;
-  specs?: Record<string, string>;
-  inStock: boolean;
-}
+import type { Product } from "@/lib/data";
 
 interface ProductCardProps {
   product: Product;
@@ -39,7 +26,9 @@ export default function ProductCard({ product, className }: ProductCardProps) {
 
   const monthlyPayment = Math.round(product.price * 0.6 / 6);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     addItem({
       id: product.id,
       slug: product.slug,
@@ -51,14 +40,10 @@ export default function ProductCard({ product, className }: ProductCardProps) {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className={cn("group relative", className)}
-    >
-      <div className="product-card relative bg-white rounded-3xl overflow-hidden">
-        <Link href={`/product/${product.slug}`} className="block relative aspect-[4/3] bg-apple-gray-100">
+    <Link href={`/product/${product.slug}`} className={cn("block", className)}>
+      <LiquidCard variant="standard" size="lg" className="h-full group">
+        {/* Image Container */}
+        <div className="relative aspect-[4/3] mb-4 overflow-hidden rounded-2xl bg-apple-gray-100">
           <Image
             src={product.image}
             alt={product.name}
@@ -67,46 +52,57 @@ export default function ProductCard({ product, className }: ProductCardProps) {
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
           
-          <div className="absolute top-4 left-4 flex flex-col gap-2">
+          {/* Badges */}
+          <div className="absolute top-3 left-3 flex flex-col gap-2">
             {discount && discount > 0 && <Badge variant="sale">-{discount}%</Badge>}
             {product.condition === "Like New" && <Badge variant="new">Like New</Badge>}
             {product.bnplAvailable && <Badge variant="bnpl">BNPL</Badge>}
             {!product.inStock && <Badge variant="stock">Out of Stock</Badge>}
           </div>
 
+          {/* Trade-in Badge */}
           {product.tradeInAvailable && (
-            <div className="absolute top-4 right-4">
+            <div className="absolute top-3 right-3">
               <Badge variant="trade-in">Trade-in</Badge>
             </div>
           )}
 
-          <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <button 
-              aria-label="Add to wishlist"
-              className="p-3 bg-white/90 backdrop-blur rounded-full shadow-lg hover:bg-white transition-colors"
+          {/* Quick Actions */}
+          <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+              className="p-2.5 bg-white/90 backdrop-blur rounded-full shadow-lg hover:bg-white transition-colors"
             >
-              <Heart className="w-5 h-5 text-apple-dark" />
-            </button>
+              <Heart className="w-4 h-4 text-apple-dark" />
+            </motion.button>
           </div>
-        </Link>
+        </div>
 
-        <div className="p-5">
-          <div className="flex items-center justify-between mb-2">
+        {/* Content */}
+        <div className="space-y-2">
+          {/* Category & Condition */}
+          <div className="flex items-center justify-between">
             <p className="text-xs text-apple-gray-200 uppercase tracking-wider">{product.category}</p>
             <ConditionBadge condition={product.condition} size="sm" />
           </div>
 
-          <Link href={`/product/${product.slug}`}>
-            <h3 className="font-semibold text-apple-dark mb-2 line-clamp-2 group-hover:text-apple-blue transition-colors">
-              {product.name}
-            </h3>
-          </Link>
+          {/* Name */}
+          <h3 className="font-semibold text-apple-dark line-clamp-2 group-hover:text-lumina-primary transition-colors">
+            {product.name}
+          </h3>
 
-          <p className="text-sm text-apple-gray-200 line-clamp-2 mb-3">
+          {/* Description */}
+          <p className="text-sm text-apple-gray-200 line-clamp-2">
             {product.description}
           </p>
           
-          <div className="flex items-baseline gap-2 mb-2">
+          {/* Price */}
+          <div className="flex items-baseline gap-2 pt-1">
             <span className="text-lg font-semibold text-apple-dark">
               {formatPrice(product.price)}
             </span>
@@ -117,22 +113,28 @@ export default function ProductCard({ product, className }: ProductCardProps) {
             )}
           </div>
 
+          {/* Monthly Payment */}
           {product.bnplAvailable && (
-            <p className="text-xs text-apple-blue font-medium mb-4">
-              From {formatPrice(monthlyPayment)}/month with BNPL
+            <p className="text-xs text-lumina-primary font-medium">
+              From {formatPrice(monthlyPayment)}/month
             </p>
           )}
 
-          <Button 
-            className="w-full"
-            disabled={!product.inStock}
-            onClick={handleAddToCart}
-            leftIcon={product.inStock ? <ShoppingBag className="w-4 h-4" /> : undefined}
-          >
-            {product.inStock ? "Add to Cart" : "Out of Stock"}
-          </Button>
+          {/* Add to Cart Button */}
+          <div className="pt-2" onClick={(e) => e.preventDefault()}>
+            <LiquidButton
+              variant={product.inStock ? "primary" : "ghost"}
+              size="sm"
+              className="w-full"
+              disabled={!product.inStock}
+              onClick={handleAddToCart}
+              leftIcon={product.inStock ? <ShoppingBag className="w-4 h-4" /> : undefined}
+            >
+              {product.inStock ? "Add to Cart" : "Out of Stock"}
+            </LiquidButton>
+          </div>
         </div>
-      </div>
-    </motion.div>
+      </LiquidCard>
+    </Link>
   );
 }
