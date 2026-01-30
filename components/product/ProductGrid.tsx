@@ -1,47 +1,69 @@
-"use client";
+'use client'
 
-import { motion } from "framer-motion";
-import ProductCard, { Product } from "./ProductCard";
-import { cn } from "@/lib/utils";
+import { motion } from 'framer-motion'
+import Link from 'next/link'
+import Image from 'next/image'
+// REMOVE THIS LINE: import { getCampaignImage } from '@/lib/campaign'
 
-interface ProductGridProps {
-  products: Product[];
-  className?: string;
-  columns?: 2 | 3 | 4;
-}
-
-export default function ProductGrid({ 
-  products, 
-  className,
-  columns = 4 
-}: ProductGridProps) {
-  const columnClasses = {
-    2: "grid-cols-2",
-    3: "grid-cols-2 md:grid-cols-3",
-    4: "grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
-  };
-
+export function ProductGrid() {
+  // REMOVE THIS LINE: const lineupImage = getCampaignImage('product-lineup');
+  
   return (
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className={cn("grid gap-4 md:gap-6", columnClasses[columns], className)}
-    >
-      {products.map((product, index) => (
-        <motion.div
-          key={product.id}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ 
-            duration: 0.5, 
-            delay: index * 0.05,
-            ease: [0.22, 1, 0.36, 1] 
-          }}
-        >
-          <ProductCard product={product} />
-        </motion.div>
-      ))}
-    </motion.div>
-  );
+    <section className="relative bg-[#f5f5f7] py-16 px-4 text-center border-t border-neutral-200">
+      <motion.h2
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="text-5xl sm:text-6xl font-semibold text-neutral-900 tracking-tight"
+        style={{ letterSpacing: '-0.04em' }}
+      >
+        Aurora Pro
+      </motion.h2>
+      
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.1 }}
+        className="mt-2 text-xl sm:text-2xl text-neutral-700"
+      >
+        Say hello to the latest generation of glass.
+      </motion.p>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.2 }}
+        className="mt-4 flex justify-center gap-4"
+      >
+        <Link href="/product/aurora-pro">
+          <button className="px-6 py-2 bg-[#0071e3] text-white rounded-full text-lg font-medium hover:bg-[#0077ed]">
+            Learn more
+          </button>
+        </Link>
+        <Link href="/shop/aurora-pro">
+          <button className="px-6 py-2 border border-[#0071e3] text-[#0071e3] rounded-full text-lg font-medium hover:bg-[#0071e3]/5">
+            Buy
+          </button>
+        </Link>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.3 }}
+        className="mt-12 max-w-4xl mx-auto relative aspect-[16/9]"
+      >
+        <Image 
+          src="/images/lineup.jpg"  // HARDCODED PATH
+          alt="Product Lineup"
+          fill
+          className="object-contain"
+          priority
+        />
+      </motion.div>
+    </section>
+  )
 }

@@ -1,104 +1,54 @@
-// components/ui/LiquidButton.tsx
-"use client";
+'use client'
 
-import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { SPRING_STANDARD, SPRING_PRO } from "@/hooks/useSpringPhysics";
+import { motion } from 'framer-motion'
+import { ReactNode } from 'react'
 
-type ButtonVariant = "primary" | "secondary" | "glass" | "ghost";
-type ButtonSize = "sm" | "md" | "lg";
-
-interface LiquidButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-  isLoading?: boolean;
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
-  children: React.ReactNode;
+interface LiquidButtonProps {
+  children: ReactNode
+  variant?: 'primary' | 'secondary' | 'ghost'
+  size?: 'sm' | 'md' | 'lg'
+  className?: string
+  leftIcon?: ReactNode
+  rightIcon?: ReactNode
+  onClick?: () => void
 }
 
-export default function LiquidButton({
-  variant = "primary",
-  size = "md",
-  isLoading = false,
+export function LiquidButton({
+  children,
+  variant = 'primary',
+  size = 'md',
+  className = '',
   leftIcon,
   rightIcon,
-  children,
-  disabled,
-  className,
-  ...props
+  onClick
 }: LiquidButtonProps) {
-  const sizes = {
-    sm: "h-9 px-4 text-sm",
-    md: "h-11 px-6 text-sm",
-    lg: "h-14 px-8 text-base",
-  };
-
+  const baseStyles = "relative inline-flex items-center justify-center font-medium transition-all duration-200 ease-out rounded-full"
+  
   const variants = {
-    primary: {
-      background: "#0046BE",
-      color: "white",
-      boxShadow: "0 4px 14px 0 rgba(0, 70, 190, 0.39)",
-    },
-    secondary: {
-      background: "rgba(0, 70, 190, 0.1)",
-      color: "#0046BE",
-      boxShadow: "none",
-      border: "1px solid rgba(0, 70, 190, 0.2)",
-    },
-    glass: {
-      background: "linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.15) 100%), rgba(0, 70, 190, 0.05)",
-      color: "#1d1d1f",
-      boxShadow: "0 4px 24px rgba(0, 0, 0, 0.04)",
-      backdropFilter: "blur(30px) saturate(180%)",
-    },
-    ghost: {
-      background: "transparent",
-      color: "#0046BE",
-      boxShadow: "none",
-    },
-  };
-
-  const style = variants[variant];
+    primary: "bg-white text-neutral-900 hover:bg-neutral-100 active:bg-neutral-200",
+    secondary: "bg-transparent text-white border border-white/30 hover:bg-white/10 hover:border-white/50",
+    ghost: "bg-transparent text-white/80 hover:text-white hover:bg-white/5"
+  }
+  
+  const sizes = {
+    sm: "px-5 py-2.5 text-sm gap-2",
+    md: "px-6 py-3 text-base gap-2.5",
+    lg: "px-8 py-4 text-lg gap-3"
+  }
 
   return (
     <motion.button
-      disabled={disabled || isLoading}
-      className={cn(
-        "relative inline-flex items-center justify-center gap-2 rounded-full font-medium overflow-hidden",
-        sizes[size],
-        disabled && "opacity-50 cursor-not-allowed",
-        className
-      )}
-      style={{
-        ...style,
-        WebkitBackdropFilter: variant === "glass" ? "blur(30px) saturate(180%)" : undefined,
-      }}
-      whileHover={{ scale: disabled ? 1 : 1.02 }}
-      whileTap={{ scale: disabled ? 1 : 0.98 }}
-      transition={variant === "primary" ? SPRING_PRO : SPRING_STANDARD}
-      {...props}
+      onClick={onClick}
+      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ type: "spring", stiffness: 400, damping: 25 }}
     >
-      {/* Shine effect for primary */}
-      {variant === "primary" && (
-        <motion.span
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: "linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%)",
-          }}
-          animate={{ x: ["-100%", "100%"] }}
-          transition={{ duration: 3, repeat: Infinity, repeatDelay: 2 }}
-        />
-      )}
-
-      {/* Loading spinner */}
-      {isLoading && (
-        <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-      )}
-
-      {!isLoading && leftIcon}
-      <span className="relative z-10">{children}</span>
-      {!isLoading && rightIcon}
+      {leftIcon && <span className="flex-shrink-0">{leftIcon}</span>}
+      <span className="whitespace-nowrap font-semibold tracking-tight">
+        {children}
+      </span>
+      {rightIcon && <span className="flex-shrink-0">{rightIcon}</span>}
     </motion.button>
-  );
+  )
 }

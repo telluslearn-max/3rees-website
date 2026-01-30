@@ -1,147 +1,138 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import { MessageCircle, Instagram, Twitter, Facebook } from "lucide-react";
+import { motion } from 'framer-motion'
+import Link from 'next/link'
 
 const footerLinks = {
-  Shop: [
-    { name: "iPhone", href: "/shop/iphone" },
-    { name: "Mac", href: "/shop/mac" },
-    { name: "iPad", href: "/shop/ipad" },
-    { name: "Samsung", href: "/shop/samsung" },
-    { name: "Gaming", href: "/shop/gaming" },
-    { name: "Starlink", href: "/shop/starlink" },
-    { name: "Accessories", href: "/shop/accessories" },
+  shop: [
+    { name: 'All Products', href: '/shop' },
+    { name: 'Aurora Pro', href: '/product/aurora-pro' },
+    { name: 'Crystal Edition', href: '/product/crystal' },
+    { name: 'Accessories', href: '/shop/accessories' },
   ],
-  Services: [
-    { name: "Trade In", href: "/trade-in" },
-    { name: "Swap Library", href: "/swap-library" },
-    { name: "BNPL", href: "/bnpl" },
-    { name: "Business", href: "/business" },
-    { name: "Repairs", href: "/repairs" },
+  support: [
+    { name: 'Help Center', href: '/help' },
+    { name: 'Contact Us', href: '/contact' },
+    { name: 'Warranty', href: '/warranty' },
+    { name: 'Returns', href: '/returns' },
   ],
-  Support: [
-    { name: "Contact Us", href: "/contact" },
-    { name: "Delivery Info", href: "/delivery" },
-    { name: "Returns", href: "/returns" },
-    { name: "Warranty", href: "/warranty" },
-    { name: "FAQ", href: "/faq" },
+  company: [
+    { name: 'About', href: '/about' },
+    { name: 'Careers', href: '/careers' },
+    { name: 'Press', href: '/press' },
   ],
-  Company: [
-    { name: "About Us", href: "/about" },
-    { name: "Careers", href: "/careers" },
-    { name: "Press", href: "/press" },
-    { name: "Sustainability", href: "/sustainability" },
-    { name: "Blog", href: "/blog" },
-  ],
-};
+  legal: [
+    { name: 'Privacy', href: '/privacy' },
+    { name: 'Terms', href: '/terms' },
+  ]
+}
 
-export default function Footer() {
+export function Footer() {
   return (
-    <footer className="bg-apple-gray-100 border-t border-apple-gray">
-      <div className="apple-container py-16">
-        {/* Newsletter */}
-        <div className="mb-12 pb-12 border-b border-apple-gray">
-          <h3 className="apple-eyebrow">Stay in the loop</h3>
-          <p className="text-apple-gray-300 mb-4 max-w-md">
-            Get exclusive deals and new arrival alerts delivered to your inbox.
-          </p>
-          <form className="flex gap-3 max-w-md" onSubmit={(e) => e.preventDefault()}>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-full border border-apple-gray-200 bg-white focus:border-apple-blue focus:outline-none transition-colors text-sm"
-            />
-            <button type="submit" className="apple-button whitespace-nowrap">
-              Subscribe
-            </button>
-          </form>
-        </div>
-
-        {/* Link Columns */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-          {Object.entries(footerLinks).map(([category, links]) => (
-            <div key={category}>
-              <h4 className="text-xs font-semibold text-apple-dark uppercase tracking-wider mb-4">
-                {category}
-              </h4>
-              <ul className="space-y-3">
-                {links.map((link) => (
-                  <li key={link.name}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-apple-gray-200 hover:text-apple-dark transition-colors duration-200"
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+    <footer className="relative bg-neutral-950 border-t border-white/10">
+      {/* Glass blur effect at top */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 lg:gap-12">
+          {/* Brand Column */}
+          <div className="col-span-2 md:col-span-1">
+            <Link href="/" className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-400 flex items-center justify-center">
+                <span className="text-white font-bold text-sm">3</span>
+              </div>
+              <span className="text-white font-semibold text-lg tracking-tight">3rees</span>
+            </Link>
+            <p className="text-white/40 text-sm leading-relaxed">
+              Transparent technology for the modern visionary.
+            </p>
+            
+            {/* Social placeholders */}
+            <div className="mt-6 flex gap-3">
+              {['twitter', 'instagram', 'linkedin'].map((social) => (
+                <motion.a
+                  key={social}
+                  href={`https://${social}.com`}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+                >
+                  <span className="sr-only">{social}</span>
+                  <div className="w-4 h-4 bg-current rounded-sm" />
+                </motion.a>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
 
-        {/* WhatsApp CTA */}
-        <div className="flex flex-col md:flex-row items-center justify-between py-8 border-t border-apple-gray mb-8 gap-6">
+          {/* Links Columns */}
           <div>
-            <h4 className="font-semibold text-apple-dark mb-1">Questions? Chat with us.</h4>
-            <p className="text-sm text-apple-gray-200">WhatsApp response within minutes</p>
+            <h3 className="text-white font-semibold mb-4 text-sm tracking-wider uppercase">Shop</h3>
+            <ul className="space-y-3">
+              {footerLinks.shop.map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href} className="text-white/50 hover:text-white text-sm transition-colors">
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
-          <a
-            href="https://wa.me/254XXXXXXXXX"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 text-white rounded-full font-medium hover:bg-green-600 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-          >
-            <MessageCircle className="w-5 h-5" />
-            Chat on WhatsApp
-          </a>
+
+          <div>
+            <h3 className="text-white font-semibold mb-4 text-sm tracking-wider uppercase">Support</h3>
+            <ul className="space-y-3">
+              {footerLinks.support.map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href} className="text-white/50 hover:text-white text-sm transition-colors">
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-white font-semibold mb-4 text-sm tracking-wider uppercase">Company</h3>
+            <ul className="space-y-3">
+              {footerLinks.company.map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href} className="text-white/50 hover:text-white text-sm transition-colors">
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-white font-semibold mb-4 text-sm tracking-wider uppercase">Legal</h3>
+            <ul className="space-y-3">
+              {footerLinks.legal.map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href} className="text-white/50 hover:text-white text-sm transition-colors">
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
-        {/* Payment Methods */}
-        <div className="flex flex-wrap items-center gap-4 mb-8 pb-8 border-b border-apple-gray">
-          <span className="text-xs text-apple-gray-200">Secure payments:</span>
-          <div className="flex gap-3">
-            <div className="h-8 px-3 bg-green-600 rounded-md flex items-center text-white text-xs font-bold">
-              M-PESA
-            </div>
-            <div className="h-8 px-3 bg-white border border-apple-gray rounded-md flex items-center text-apple-dark text-xs font-bold">
-              VISA
-            </div>
-            <div className="h-8 px-3 bg-white border border-apple-gray rounded-md flex items-center text-apple-dark text-xs font-bold">
-              Mastercard
-            </div>
-            <div className="h-8 px-3 bg-apple-blue rounded-md flex items-center text-white text-xs font-bold">
-              COD
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Bar */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex flex-wrap items-center gap-4 text-xs text-apple-gray-200">
-            <span>© 2024 3rees. All rights reserved.</span>
-            <Link href="/privacy" className="hover:text-apple-dark transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-apple-dark transition-colors">Terms of Use</Link>
-            <Link href="/sitemap" className="hover:text-apple-dark transition-colors">Sitemap</Link>
-          </div>
-          
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-3">
-              <a href="#" aria-label="Instagram" className="p-2 hover:bg-apple-gray rounded-full transition-colors text-apple-gray-300 hover:text-apple-dark">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" aria-label="Twitter" className="p-2 hover:bg-apple-gray rounded-full transition-colors text-apple-gray-300 hover:text-apple-dark">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" aria-label="Facebook" className="p-2 hover:bg-apple-gray rounded-full transition-colors text-apple-gray-300 hover:text-apple-dark">
-                <Facebook className="w-5 h-5" />
-              </a>
-            </div>
-            <span className="text-xs text-apple-gray-200">Made with care in Nairobi, Kenya</span>
+        {/* Bottom bar */}
+        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-white/30 text-sm">
+            © 2025 3rees. All rights reserved.
+          </p>
+          <div className="flex items-center gap-6 text-white/30 text-sm">
+            <span>Made with precision</span>
+            <div className="w-px h-4 bg-white/10" />
+            <span className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              All systems operational
+            </span>
           </div>
         </div>
       </div>
     </footer>
-  );
+  )
 }

@@ -8,7 +8,7 @@ import { ShoppingBag, Heart } from "lucide-react";
 import { cn, formatPrice } from "@/lib/utils";
 import { useCart } from "@/contexts/CartContext";
 import LiquidCard from "@/components/ui/LiquidCard";
-import LiquidButton from "@/components/ui/LiquidButton";
+import { LiquidButton } from '@/components/ui/LiquidButton'
 import Badge from "@/components/ui/Badge";
 import ConditionBadge from "@/components/ui/ConditionBadge";
 import type { Product } from "@/lib/data";

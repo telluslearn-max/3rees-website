@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/contexts/CartContext";
 import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+import { Footer } from '@/components/layout/Footer'
 import CartDrawer from "@/components/cart/CartDrawer";
 
 const inter = Inter({
