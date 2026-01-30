@@ -17,11 +17,11 @@
   }
   
   ::selection {
-    @apply bg-apple-blue text-white;
+    @apply bg-lumina-primary text-white;
   }
   
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-apple-blue rounded-sm;
+    @apply outline-2 outline-offset-2 outline-lumina-primary rounded-sm;
   }
   
   * {
@@ -30,96 +30,190 @@
 }
 
 @layer components {
-  /* Typography */
-  .apple-headline {
-    @apply text-4xl md:text-6xl lg:text-7xl font-semibold text-apple-dark text-balance;
-    letter-spacing: -0.022em;
-    line-height: 1.1;
+  /* ============================================
+     LIQUID GLASS SYSTEM - LUMINA RETAIL
+     ============================================ */
+  
+  /* Base Liquid Glass */
+  .liquid-glass {
+    position: relative;
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    background: 
+      linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.15) 100%),
+      rgba(0, 70, 190, 0.05);
+    border-radius: 40px;
+    overflow: hidden;
+    isolation: isolate;
   }
   
-  .apple-subhead {
-    @apply text-xl md:text-2xl lg:text-3xl font-normal text-apple-gray-200 mt-4 max-w-3xl text-balance;
+  /* Specular Stroke (Gradient Border) */
+  .liquid-glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 40px;
+    padding: 1.5px;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(255, 255, 255, 0.2) 100%
+    );
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  /* Specular Sweep Animation */
+  .liquid-glass::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.08) 50%,
+      transparent 60%
+    );
+    animation: specular-sweep 4s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+  
+  /* PRO VARIANT - More intense */
+  .liquid-glass-pro {
+    @apply liquid-glass;
+    box-shadow: 
+      0 0 0 1px rgba(0, 70, 190, 0.1),
+      0 20px 40px -10px rgba(0, 70, 190, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+  
+  .liquid-glass-pro::after {
+    background: linear-gradient(
+      45deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.12) 50%,
+      transparent 60%
+    );
+  }
+  
+  /* CONCENTRIC RADIUS SYSTEM */
+  .bento-card {
+    @apply liquid-glass;
+    padding: 24px;
+  }
+  
+  .bento-card-inner {
+    border-radius: 24px; /* 40 - 16 = 24 */
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* RAY-TRACED IMAGE CONTAINER */
+  .ray-traced-container {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+  }
+  
+  .ray-traced-image {
+    transform: rotateX(var(--rotateX, 0deg)) rotateY(var(--rotateY, 0deg));
+    transition: transform 0.1s ease-out;
+    will-change: transform;
+  }
+  
+  /* REFRACTIVE NAVBAR */
+  .navbar-glass {
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    background: rgba(255, 255, 255, 0.7);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  
+  /* TYPOGRAPHY */
+  .lumina-headline {
+    @apply text-hero font-semibold text-apple-dark;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+  
+  .lumina-subhead {
+    @apply text-xl md:text-2xl font-normal text-apple-gray-200 mt-4 max-w-3xl;
     letter-spacing: -0.021em;
     line-height: 1.4;
   }
   
-  .apple-eyebrow {
-    @apply text-xs md:text-sm font-semibold uppercase tracking-widest text-apple-blue mb-4;
+  .lumina-eyebrow {
+    @apply text-xs font-semibold uppercase tracking-widest text-lumina-primary mb-4;
     letter-spacing: 0.05em;
   }
   
-  /* Buttons */
-  .apple-button {
-    @apply inline-flex items-center justify-center px-6 py-3 rounded-full 
-           bg-apple-blue text-white font-medium text-sm
-           transition-all duration-300 ease-apple
-           hover:bg-apple-blue-hover hover:scale-[1.02]
-           active:scale-[0.98];
-    min-height: 44px;
+  /* SECTIONS */
+  .section-lumina {
+    @apply py-24 md:py-32;
   }
   
-  .apple-button-secondary {
-    @apply inline-flex items-center justify-center px-6 py-3 rounded-full 
-           bg-transparent text-apple-blue font-medium text-sm
-           border border-apple-blue
-           transition-all duration-300 ease-apple
-           hover:bg-apple-blue hover:text-white;
-    min-height: 44px;
+  /* SPRING PHYSICS UTILITIES */
+  .spring-standard {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   
-  /* Cards */
-  .product-card {
-    @apply bg-white rounded-3xl overflow-hidden transition-all duration-500 ease-apple;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  .spring-pro {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
   
-  .product-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  /* GLOW EFFECTS */
+  .glow-lumina {
+    box-shadow: 0 0 40px -10px rgba(0, 70, 190, 0.3);
   }
   
-  /* Layout */
-  .section-large {
-    @apply py-20 md:py-28 lg:py-32;
+  .glow-lumina-intense {
+    box-shadow: 
+      0 0 60px -15px rgba(0, 70, 190, 0.4),
+      0 0 100px -20px rgba(0, 70, 190, 0.2);
   }
   
-  .section-medium {
-    @apply py-16 md:py-20 lg:py-24;
+  /* TINT UTILITIES */
+  .tint-lumina {
+    background-color: rgba(0, 70, 190, 0.05);
   }
   
-  .apple-container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  .tint-lumina-intense {
+    background-color: rgba(0, 70, 190, 0.1);
   }
   
-  /* Effects */
-  .glass {
-    @apply bg-white/80 backdrop-blur-xl backdrop-saturate-150;
+  /* LOW POWER MODE */
+  @media (prefers-reduced-motion: reduce) {
+    .liquid-glass::after,
+    .liquid-glass-pro::after {
+      animation: none;
+    }
+    
+    .spring-standard,
+    .spring-pro {
+      transition: none;
+    }
   }
   
-  .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-apple-dark to-apple-gray-300;
-  }
-  
-  /* Dark mode (Swap Library) */
-  .dark-section {
-    @apply bg-[#0a0a0a] text-white;
-  }
-  
-  .dark-card {
-    @apply bg-[#1c1c1e] border border-[#2c2c2e] rounded-2xl;
+  /* HIGH CONTRAST MODE */
+  @media (prefers-contrast: high) {
+    .liquid-glass::before {
+      background: rgba(255, 255, 255, 0.5);
+    }
   }
 }
 
 @layer utilities {
-  .ease-apple {
-    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  
-  .stagger-1 { animation-delay: 0.1s; }
-  .stagger-2 { animation-delay: 0.2s; }
-  .stagger-3 { animation-delay: 0.3s; }
-  .stagger-4 { animation-delay: 0.4s; }
-  
+  /* SCROLLBAR */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
@@ -128,20 +222,32 @@
     scrollbar-width: none;
   }
   
+  /* TEXT BALANCE */
   .text-balance {
     text-wrap: balance;
   }
   
-  .aspect-product {
-    aspect-ratio: 4/5;
+  /* ASPECT RATIOS */
+  .aspect-bento {
+    aspect-ratio: 1;
   }
   
-  .aspect-hero {
-    aspect-ratio: 16/9;
+  .aspect-bento-wide {
+    aspect-ratio: 2 / 1;
+  }
+  
+  .aspect-bento-tall {
+    aspect-ratio: 1 / 2;
   }
 }
 
-/* Scrollbar */
+/* CUSTOM KEYFRAMES */
+@keyframes specular-sweep {
+  0%, 100% { transform: translateX(-100%) rotate(45deg); }
+  50% { transform: translateX(100%) rotate(45deg); }
+}
+
+/* SCROLLBAR STYLING */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
