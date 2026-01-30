@@ -59,7 +59,7 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.7 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <Link href="/shop/" className="apple-button text-base px-8 py-4">
+          <Link href="/shop" className="apple-button text-base px-8 py-4">
             Shop Now
             <ArrowRight className="ml-2 w-4 h-4" />
           </Link>

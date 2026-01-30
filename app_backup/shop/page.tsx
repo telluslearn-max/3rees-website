@@ -159,7 +159,7 @@ export default function ShopPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
                 >
-                  <Link href={`/shop/${product.slug}/`}>
+                  <Link href={`/product/${product.slug}/`}>
                     <div className={`product-card group cursor-pointer ${viewMode === "list" ? "flex flex-row" : ""}`}>
                       <div className={`relative bg-white overflow-hidden ${viewMode === "list" ? "w-48" : "aspect-square"}`}>
                         <img

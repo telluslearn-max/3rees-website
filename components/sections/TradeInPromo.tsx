@@ -61,7 +61,7 @@ export default function TradeInPromo() {
                 Get Trade-In Quote
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
-              <Link href="/shop/" className="apple-button-secondary border-green-600 text-green-600 hover:bg-green-600">
+              <Link href="/shop" className="apple-button-secondary border-green-600 text-green-600 hover:bg-green-600">
                 Shop with Trade-In
               </Link>
             </div>

@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ShoppingBag, Search } from "lucide-react";
 
 const navItems = [
-  { name: "Store", href: "/shop/" },
+  { name: "Store", href: "/shop" },
   { name: "iPhone", href: "/shop/iphone/" },
   { name: "Mac", href: "/shop/mac/" },
   { name: "iPad", href: "/shop/ipad/" },

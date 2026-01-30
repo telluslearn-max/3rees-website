@@ -659,7 +659,7 @@ export default function BNPLPage() {
                   </div>
                 </div>
                 
-                <a href="/shop/" className="inline-block px-8 py-4 rounded-full bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors">
+                <a href="/shop" className="inline-block px-8 py-4 rounded-full bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors">
                   Continue Shopping
                 </a>
               </motion.div>

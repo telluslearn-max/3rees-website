@@ -307,7 +307,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Link href="/shop/" className="flex-1 py-4 rounded-full bg-blue-600 text-white font-medium hover:bg-blue-700 text-center">Continue Shopping</Link>
+                  <Link href="/shop" className="flex-1 py-4 rounded-full bg-blue-600 text-white font-medium hover:bg-blue-700 text-center">Continue Shopping</Link>
                   <a href={`https://wa.me/254XXXXXXXXX?text=Hi, I just placed order #3R...`} target="_blank" rel="noopener noreferrer" className="flex-1 py-4 rounded-full border border-green-600 text-green-600 font-medium hover:bg-green-600 hover:text-white text-center transition-colors">
                     Track on WhatsApp
                   </a>

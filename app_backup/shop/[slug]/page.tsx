@@ -30,7 +30,7 @@ export default function ProductDetail() {
           <nav className="flex items-center gap-2 text-sm text-gray-500 mb-8">
             <Link href="/" className="hover:text-black">Home</Link>
             <ChevronRight className="w-4 h-4" />
-            <Link href="/shop/" className="hover:text-black">Shop</Link>
+            <Link href="/shop" className="hover:text-black">Shop</Link>
             <ChevronRight className="w-4 h-4" />
             <span className="text-black">{product.name}</span>
           </nav>

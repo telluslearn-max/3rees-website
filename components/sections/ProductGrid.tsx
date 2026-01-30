@@ -29,7 +29,7 @@ export default function ProductGrid() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Link href={`/shop/${product.slug}/`}>
+              <Link href={`/product/${product.slug}/`}>
                 <div className="product-card group cursor-pointer h-full flex flex-col">
                   <div className="relative aspect-square bg-white p-8 flex items-center justify-center overflow-hidden">
                     <motion.img
@@ -87,7 +87,7 @@ export default function ProductGrid() {
           viewport={{ once: true }}
           className="text-center mt-12"
         >
-          <Link href="/shop/" className="apple-button-secondary">View All Products</Link>
+          <Link href="/shop" className="apple-button-secondary">View All Products</Link>
         </motion.div>
       </div>
     </section>
